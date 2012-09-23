@@ -10,7 +10,7 @@
 
 @interface MSTimer : NSObject
 
-+ (id) startTimerWithTarget:(id)target selector:(SEL)selector userInfo:(id)userInfo interval:(NSTimeInterval)interval repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode;
++ (id) startTimerWithTimeInterval:(NSTimeInterval)seconds target:(id)target selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode;
 
 @end
 

@@ -14,7 +14,8 @@
     NSTimer *_timer;
 }
 
-- (id) initWithTarget:(id)target selector:(SEL)selector interval:(NSTimeInterval)interval userInfo:(id)userInfo repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode;
+
+- (id) initTimerWithTimeInterval:(NSTimeInterval)seconds target:(id)target selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode;
 
 - (void)onTimer;
 
@@ -22,29 +23,18 @@
 
 @implementation MSTimer
 
-+ (id) startTimerWithTarget:(id)target selector:(SEL)selector userInfo:(id)userInfo interval:(NSTimeInterval)interval repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode {
-    MSTimer *timer = [[[MSTimer alloc] initWithTarget:target selector:selector interval:interval userInfo:userInfo repeats:repeats runLoop:runLoop mode:mode] autorelease];
++ (id) startTimerWithTimeInterval:(NSTimeInterval)seconds target:(id)target selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode {
+    MSTimer *timer = [[[MSTimer alloc] initTimerWithTimeInterval:seconds target:target selector:aSelector userInfo:userInfo repeats:repeats runLoop:runLoop mode:mode] autorelease];
     return timer;
 }
 
-- (id) initWithTarget:(id)target selector:(SEL)selector interval:(NSTimeInterval)interval userInfo:(id)userInfo repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode {
+- (id) initTimerWithTimeInterval:(NSTimeInterval)seconds target:(id)target selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)repeats runLoop:(NSRunLoop *)runLoop mode:(NSString *)mode {
     self = [super init];
     if (self) {
         _target = target;
-        _selector = selector;
-        _timer = [[NSTimer timerWithTimeInterval:interval target:self selector:@selector(onTimer) userInfo:userInfo repeats:repeats] retain];
+        _selector = aSelector;
+        _timer = [[NSTimer timerWithTimeInterval:seconds target:self selector:@selector(onTimer) userInfo:userInfo repeats:repeats] retain];
         [runLoop addTimer:_timer forMode:mode];
-    }
-    return self;
-}
-
-- (id)initTimerWithTarget:(id)target selector:(SEL)selector interval:(NSTimeInterval)interval repeats:(BOOL)repeats {
-    self = [super init];
-    if (self) {
-        _target = target;
-        _selector = selector;
-        _timer = [[NSTimer timerWithTimeInterval:interval target:self selector:@selector(onTimer) userInfo:nil repeats:repeats] retain];
-        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return self;
 }
