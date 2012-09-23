@@ -11,6 +11,8 @@ The problem lies in the fact that if `MyViewController` becomes a `NSTimer`'s ta
 
 To fix this problem, we use a proxy object `MSTimer` which takes the burden off of `MyViewController`. So when you dismiss `MyViewController`, its `dealloc` gets called as expected.
 
+This is accomplished by using [message forwarding](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html#//apple_ref/doc/uid/TP40008048-CH105-SW1). Meaning our `MSTimer` will forward any messages/methods to the underlying `NSTimer`.
+
 #### How To Use
 
 Instantiate using class method, as you would a regular NSTimer. __NOTE: this adds the timer to the runloop with specified mode right away__.
